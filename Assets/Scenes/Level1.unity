@@ -3417,6 +3417,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 531552249836432554, guid: 42f0fa70fbdafbc4a8022ece9a2d7689, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4030377742737234173, guid: 42f0fa70fbdafbc4a8022ece9a2d7689, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.95
@@ -3479,7 +3483,7 @@ PrefabInstance:
       objectReference: {fileID: 213792675}
     - target: {fileID: 4804190143333119928, guid: 42f0fa70fbdafbc4a8022ece9a2d7689, type: 3}
       propertyPath: maxDistanceToTravel
-      value: 15
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
