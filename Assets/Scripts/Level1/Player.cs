@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
     public HealthBar healthBar;
     public TMP_Text timerText;
     public GameOverManager gameOverManager;
+    private Vector2 oldVelocity;
+
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -139,6 +141,21 @@ public class Player : MonoBehaviour
     {
         animator.SetFloat("Speed", speedToSet);
         xSpeed = speedToSet;
+    }
+
+    public void detain()
+    {
+        stop = true;
+        oldVelocity = rb2D.linearVelocity;
+        rb2D.linearVelocity = Vector2.zero;
+        setSpeed(0);
+    }
+
+    public void continueMoving()
+    {
+        stop = false;
+        rb2D.linearVelocity = oldVelocity;
+        setSpeed(1);
     }
 
     public float getxVelocity()

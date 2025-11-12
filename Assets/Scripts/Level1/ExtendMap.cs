@@ -11,6 +11,7 @@ public class ExtendMap : MonoBehaviour
     private bool haveExtended = false;
     public GameObject startOfEntry;
     public GameObject endOfEntry;
+    public GameObject message; 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -41,6 +42,7 @@ public class ExtendMap : MonoBehaviour
                     GameObject endEntryObject = Instantiate(endOfEntry, endEntryPosition, Quaternion.identity);
                     WalkToEntry startEntryScript = startEntryObject.GetComponent<WalkToEntry>();
                     startEntryScript.setEntry(endEntryObject);
+                    startEntryScript.setMessage(message);
                     playerScript.setEntry(startEntryObject);
                 }
             } else
