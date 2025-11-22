@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     public TMP_Text timerText;
     public GameOverManager gameOverManager;
     private Vector2 oldVelocity;
+    public int lifeToDecreaseBySec = 3;
 
     void Start()
     {
@@ -95,7 +96,7 @@ public class Player : MonoBehaviour
 
     public void decreaseLife()
     {
-        lifeCount -= 3;
+        lifeCount -= lifeToDecreaseBySec;
         if (lifeCount <= 0)
         {
             gameOverManager.ShowGameOver();
