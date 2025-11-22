@@ -178,8 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4dea588e8ae06b40beb781dfa16208f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  speed: 2
+  speed: 3
   direction: {x: 0, y: 0}
-  damage: 5
+  damage: 10
   healsPlayer: 0
   player: {fileID: 0}
