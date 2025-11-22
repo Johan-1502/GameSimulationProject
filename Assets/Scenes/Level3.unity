@@ -958,9 +958,9 @@ MonoBehaviour:
   safeDistance: 1
   decisionInterval: 1
   libroPrefab: {fileID: 9028099468844967129, guid: 16cb533d4ecbb6447ac84f857dd6a1ae, type: 3}
-  librosCount: 32
+  librosCount: 8
   specialAttackChance: 0.1
-  vulnerabilityDuration: 3
+  vulnerabilityDuration: 2
   isVulnerable: 0
   cafePrefab: {fileID: 7309113303638754205, guid: c98f93b21a2a6894baa65a2e3122ebfa, type: 3}
   papelPrefab: {fileID: 3349835944734756164, guid: c94cffaff47393242aec813f3eed82bf, type: 3}
