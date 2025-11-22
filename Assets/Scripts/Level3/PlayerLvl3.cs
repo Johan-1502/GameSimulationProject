@@ -12,7 +12,7 @@ public class PlayerLvl3 : MonoBehaviour
     private Rigidbody2D rb2D;
     private float moveX;
     private float moveY;
-    public int lifeCount = 100;
+    public int lifeCount = 100000000;
     public TMP_Text textLife;
     private Animator animator;
     public float timeRemaining = 90f;
@@ -51,7 +51,7 @@ public class PlayerLvl3 : MonoBehaviour
             if (!isDecreasing)
             {
                 isDecreasing = true;
-                InvokeRepeating("decreaseLife", 0f, 1f);
+                //InvokeRepeating("decreaseLife", 0f, 1f);
             }
         }
     }
@@ -64,13 +64,27 @@ public class PlayerLvl3 : MonoBehaviour
     public void decreaseLife(int quantity)
     {
         lifeCount -= quantity;
-        if (lifeCount <= 0)
-        {
-            gameOverManager.ShowGameOver();
-        }
-        decreaseHealthBar(quantity);
+        currentHealth -= quantity;
+
+        if (currentHealth < 0)
+            currentHealth = 0;
+
+        healthBar.SetHealth(currentHealth);
         textLife.text = "life: " + lifeCount.ToString();
 
+        startBeatenMode();
+    }
+
+    public void healLife(int amount)
+    {
+        lifeCount += amount;
+        currentHealth += amount;
+
+        if (currentHealth > lifeCount)
+            currentHealth = lifeCount;
+
+        healthBar.SetHealth(currentHealth);
+        textLife.text = "life: " + lifeCount.ToString();
     }
 
     public void decreaseLife()
