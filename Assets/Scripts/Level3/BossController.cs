@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 using UnityEngine.SceneManagement;
+
 public class BossController : MonoBehaviour
 {
     public enum BossState { Move, Attacking, Vulnerable }
@@ -51,12 +52,18 @@ public class BossController : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprite;
 
+    // ==== NUEVO: generador LCG ====
+    private LinealCongruenceGenerator riGenerator;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
+
+        // Crear generador lineal
+        riGenerator = new LinealCongruenceGenerator();
 
         currentHealth = maxHealth;
 
@@ -108,15 +115,19 @@ public class BossController : MonoBehaviour
 
         float dist = Vector2.Distance(transform.position, player.position);
 
-        // Ataque especial
-        if (dist <= (safeDistance + 1f) && Random.value <= specialAttackChance)
+        // Ri para ataque especial
+        float riSpecial = riGenerator.getValue();
+
+        if (dist <= (safeDistance + 1f) && riSpecial <= specialAttackChance)
         {
             StartCoroutine(DoSpecialAttack());
             return;
         }
 
-        // Markov 60% mover, 40% atacar
-        if (Random.value < 0.60f)
+        // Ri para Markov mover / atacar
+        float ri = riGenerator.getValue();
+
+        if (ri < 0.60f)
             DecideMovement(dist);
         else
             StartCoroutine(HacerAtaqueNormal());
@@ -130,9 +141,9 @@ public class BossController : MonoBehaviour
         currentState = BossState.Move;
 
         if (dist > safeDistance)
-            moveDir = (player.position - transform.position).normalized; // perseguir
+            moveDir = (player.position - transform.position).normalized;
         else
-            moveDir = (transform.position - player.position).normalized; // huir
+            moveDir = (transform.position - player.position).normalized;
     }
 
     // =====================================================
@@ -157,7 +168,7 @@ public class BossController : MonoBehaviour
 
     void AtaqueNormalMarkov()
     {
-        float r = Random.value;
+        float r = riGenerator.getValue();
 
         if (r < 0.50f) { Shoot(cafePrefab); return; }
         if (r < 0.80f) { Shoot(papelPrefab); return; }
@@ -212,7 +223,6 @@ public class BossController : MonoBehaviour
             yield return new WaitForSeconds(0.6f);
         }
 
-        // Entra en modo vulnerable
         isDoingSpecial = false;
         isVulnerable = true;
         currentState = BossState.Vulnerable;
@@ -303,7 +313,7 @@ public class BossController : MonoBehaviour
     {
         rb.linearVelocity = Vector2.zero;
 
-        ShowDialog("¿Cómo lo hiciste?... Nadie había pasado mi materia desde el 10 de octubre de 1953…");
+        ShowDialog("¿Cómo lo hiciste?... Nadie había pasado mi materia desde 1953…");
         yield return new WaitForSeconds(2f);
 
         ShowDialog("Con ChatGPT a mi lado, no hay nada que no pueda hacer.");
@@ -312,18 +322,15 @@ public class BossController : MonoBehaviour
         HideDialog();
         yield return new WaitForSeconds(0.5f);
 
-        // Activar animación de correr (si existe)
-        if (anim != null)
-            anim.SetFloat("Speed", 1f);
-
+        // correr
+        anim.SetFloat("Speed", 1f);
         StartCoroutine(EscapeRoutine());
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("CreditsScene");
     }
 
-
     IEnumerator EscapeRoutine()
     {
-        // Permitir movimiento
         rb.bodyType = RigidbodyType2D.Dynamic;
 
         float escapeSpeed = 3f;
@@ -338,8 +345,8 @@ public class BossController : MonoBehaviour
         }
 
         Destroy(gameObject);
-    }
 
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
