@@ -15,12 +15,21 @@ public class PlayerLvl2 : MonoBehaviour
     public int lifeCount = 100;
     public TMP_Text textLife;
     private Animator animator;
+    public int distanceTraveled = 0;
+    public int maxDistanceToTravel = 15;
+    public bool hasEnded = false;
+    private bool hasStoppedToMove = false;
+    private GameObject entryObject;
+    public bool stop;
     public float timeRemaining = 90f;
-    private bool isDecreasing = false;
+    public bool isDecreasing = false;
     private int currentHealth;
     public HealthBar healthBar;
     public TMP_Text timerText;
     public GameOverManager gameOverManager;
+    private Vector2 oldVelocity;
+    public int lifeToDecreaseBySec = 3;
+
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
@@ -31,11 +40,6 @@ public class PlayerLvl2 : MonoBehaviour
 
     void Update()
     {
-        moveX = Input.GetAxisRaw("Horizontal");
-        moveY = Input.GetAxisRaw("Vertical");
-        rb2D.linearVelocity = new Vector2(moveX * xSpeed, moveY * ySpeed);
-
-        animator.SetFloat("Speed", Mathf.Abs(moveX) + Mathf.Abs(moveY));
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
@@ -52,6 +56,23 @@ public class PlayerLvl2 : MonoBehaviour
             {
                 isDecreasing = true;
                 InvokeRepeating("decreaseLife", 0f, 1f);
+            }
+        }
+
+        if (!hasStoppedToMove)
+        {
+            moveX = Input.GetAxisRaw("Horizontal");
+            moveY = Input.GetAxisRaw("Vertical");
+            rb2D.linearVelocity = new Vector2(moveX * xSpeed, moveY * ySpeed);
+
+            animator.SetFloat("Speed", Mathf.Abs(moveX) + Mathf.Abs(moveY));
+        }
+        else
+        {
+            if (!this.stop)
+            {
+                Vector2 direction = (entryObject.transform.position - transform.position).normalized;
+                rb2D.linearVelocity = direction * 1f;
             }
         }
     }
@@ -75,7 +96,7 @@ public class PlayerLvl2 : MonoBehaviour
 
     public void decreaseLife()
     {
-        lifeCount -= 3;
+        lifeCount -= lifeToDecreaseBySec;
         if (lifeCount <= 0)
         {
             gameOverManager.ShowGameOver();
@@ -123,8 +144,72 @@ public class PlayerLvl2 : MonoBehaviour
         xSpeed = speedToSet;
     }
 
+    public void detain()
+    {
+        stop = true;
+        oldVelocity = rb2D.linearVelocity;
+        rb2D.linearVelocity = Vector2.zero;
+        setSpeed(0);
+    }
+
+    public void continueMoving()
+    {
+        stop = false;
+        rb2D.linearVelocity = oldVelocity;
+        setSpeed(1);
+    }
+
     public float getxVelocity()
     {
         return xSpeed * moveX;
+    }
+
+    public void increaseDistance()
+    {
+        distanceTraveled++;
+    }
+    public int getDistanceTraveled()
+    {
+        return distanceTraveled;
+    }
+
+    public bool canContinue()
+    {
+        return distanceTraveled <= maxDistanceToTravel;
+    }
+
+    public void endTravel()
+    {
+        hasEnded = true;
+    }
+
+    public bool hasStopped()
+    {
+        return hasStoppedToMove;
+    }
+
+    public void stopMoving()
+    {
+        hasStoppedToMove = true;
+    }
+
+    public void setEntry(GameObject entry)
+    {
+        entryObject = entry;
+    }
+
+    public void stopMove()
+    {
+        this.stop = true;
+        rb2D.linearVelocity = Vector2.zero;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Bottle"))
+        {
+            decreaseLife(2);
+            Destroy(collision.gameObject);
+        }
     }
 }
