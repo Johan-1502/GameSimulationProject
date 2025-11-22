@@ -9,33 +9,50 @@ public class PlayerLvl3 : MonoBehaviour
     private float xSpeed = 1.5f;
     private float ySpeed = 2f;
     public float frozenTime = 0.6f;
+
     private Rigidbody2D rb2D;
     private float moveX;
     private float moveY;
-    public int lifeCount = 100;
+
+    public int lifeCount = 100; // vida base real
+    public int lifeReference = 100; // vida base real
+    private int currentHealth;
+
     public TMP_Text textLife;
     private Animator animator;
-    public float timeRemaining = 90f;
+
+    // TIEMPO DEL NIVEL → 2 MINUTOS
+    public float timeRemaining = 120f;
     private bool isDecreasing = false;
-    private int currentHealth;
+
     public HealthBar healthBar;
     public TMP_Text timerText;
     public GameOverManager gameOverManager;
+
+
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         currentHealth = lifeCount;
+        lifeReference = lifeCount;
         healthBar.SetMaxHealth(lifeCount);
+        textLife.text = "life: " + lifeCount;
     }
 
     void Update()
     {
+        // Movimiento del jugador
         moveX = Input.GetAxisRaw("Horizontal");
         moveY = Input.GetAxisRaw("Vertical");
         rb2D.linearVelocity = new Vector2(moveX * xSpeed, moveY * ySpeed);
 
         animator.SetFloat("Speed", Mathf.Abs(moveX) + Mathf.Abs(moveY));
+
+        // ===================================================
+        // MANEJO DEL TIEMPO
+        // ===================================================
         if (timeRemaining > 0)
         {
             timeRemaining -= Time.deltaTime;
@@ -44,62 +61,74 @@ public class PlayerLvl3 : MonoBehaviour
         else
         {
             timerText.text = "00:00";
-            if (lifeCount <= 0)
-            {
-                gameOverManager.ShowGameOver();
-            }
+
             if (!isDecreasing)
             {
                 isDecreasing = true;
-                InvokeRepeating("decreaseLife", 0f, 1f);
+                InvokeRepeating("LoseLifeOverTime", 0f, 1f);
             }
         }
     }
+
+    // Mostrar tiempo en formato MM:SS
     void showTime(float tiempo)
     {
         int minutos = Mathf.FloorToInt(tiempo / 60);
         int segundos = Mathf.FloorToInt(tiempo % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutos, segundos);
     }
+
+    // ===================================================
+    // PÉRDIDA DE VIDA POR FIN DEL TIEMPO
+    // ===================================================
+    void LoseLifeOverTime()
+    {
+        decreaseLife(1);
+    }
+
+    // ===================================================
+    // RECIBIR DAÑO NORMAL
+    // ===================================================
     public void decreaseLife(int quantity)
     {
         lifeCount -= quantity;
-        if (lifeCount <= 0)
+        currentHealth -= quantity;
+
+        if (lifeCount <= 0 || currentHealth <= 0)
         {
             gameOverManager.ShowGameOver();
         }
-        decreaseHealthBar(quantity);
-        textLife.text = "life: " + lifeCount.ToString();
-
-    }
-
-    public void decreaseLife()
-    {
-        lifeCount -= 3;
-        if (lifeCount <= 0)
-        {
-            gameOverManager.ShowGameOver();
-        }
-        decreaseHealthBar(3);
-        textLife.text = "life: " + lifeCount.ToString();
-        startBeatenMode();
-    }
-
-    public void decreaseHealthBar(int amount)
-    {
-        currentHealth -= amount;
 
         if (currentHealth < 0)
             currentHealth = 0;
 
         healthBar.SetHealth(currentHealth);
+        textLife.text = "life: " + lifeCount;
+
+        startBeatenMode();
     }
 
-    public void ResetSpeed()
+    // ===================================================
+    // CURACIÓN DEL JUGADOR
+    // ===================================================
+    public void healLife(int amount)
     {
-        xSpeed = 1.5f;
+        lifeCount += amount;
+        currentHealth += amount;
+
+        if (currentHealth > lifeReference)
+        {
+            currentHealth = lifeReference;
+            lifeCount = lifeReference;
+        }
+
+        healthBar.SetHealth(currentHealth);
+        textLife.text = "life: " + lifeCount;
     }
 
+    // ===================================================
+    // ANIMACIÓN DE DAÑO
+    // ===================================================
     private IEnumerator beatenMode()
     {
         animator.SetBool("Beaten", true);
@@ -110,21 +139,5 @@ public class PlayerLvl3 : MonoBehaviour
     public void startBeatenMode()
     {
         StartCoroutine(beatenMode());
-    }
-
-    public void multiplySpeed(float factor)
-    {
-        xSpeed = xSpeed * factor;
-    }
-
-    public void setSpeed(float speedToSet)
-    {
-        animator.SetFloat("Speed", speedToSet);
-        xSpeed = speedToSet;
-    }
-
-    public float getxVelocity()
-    {
-        return xSpeed * moveX;
     }
 }
