@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
     public int damage = 1;
     public bool healsPlayer = false;
 
-    public Transform player;  // ← referencia directa al jugador
+    public Transform player;
     private SpriteRenderer sr;
 
     void Start()
@@ -26,23 +26,19 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Golpea solo si el objeto que tocó ES el jugador asignado
         if (other.transform == player)
         {
-            PlayerLvl3 playerScript = other.GetComponent<PlayerLvl3>();
+            PlayerLvl3 p = other.GetComponent<PlayerLvl3>();
 
-            if (playerScript != null)
+            if (p != null)
             {
                 if (healsPlayer)
                 {
-                    // Cura
-                    playerScript.decreaseHealthBar(-damage);
+                    p.healLife(damage);        // ✔ CURA
                 }
                 else
                 {
-                    // Daño real
-                    playerScript.decreaseLife(damage);
-                    playerScript.startBeatenMode();
+                    p.decreaseLife(damage);    // ✔ DAÑO
                 }
             }
 
