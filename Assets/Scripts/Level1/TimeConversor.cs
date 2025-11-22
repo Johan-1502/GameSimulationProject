@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class TimeConversor
 {
+    public static float minTime = 1f;
+    public static float maxTime = 2;
     public static float transform(float number)
     {
         if (number < 0.25)
@@ -23,6 +25,6 @@ public class TimeConversor
     }
     public static float transform2(float number)
     {
-        return 1 + (2-1)*number;
+        return minTime + (maxTime-minTime)*number;
     }
 }

@@ -132,6 +132,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1073987287310458800, guid: fd6eb97c8de0df148b20a13267371667, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.537
+      objectReference: {fileID: 0}
+    - target: {fileID: 1073987287310458800, guid: fd6eb97c8de0df148b20a13267371667, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.075
+      objectReference: {fileID: 0}
     - target: {fileID: 1990449405758338140, guid: fd6eb97c8de0df148b20a13267371667, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.39501777
@@ -171,6 +179,10 @@ PrefabInstance:
     - target: {fileID: 1990449405758338140, guid: fd6eb97c8de0df148b20a13267371667, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5512617739361764754, guid: fd6eb97c8de0df148b20a13267371667, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.075
       objectReference: {fileID: 0}
     - target: {fileID: 6163385880556051814, guid: fd6eb97c8de0df148b20a13267371667, type: 3}
       propertyPath: m_Name
@@ -264,10 +276,10 @@ MonoBehaviour:
   - {fileID: 7882380026858896127, guid: 93a1fc21a0032cd419488f21d1a02be1, type: 3}
   - {fileID: 7882380026858896127, guid: 8d4f7dee207b75b418deb7a0fa82bbce, type: 3}
   carsSpawnPoints:
-  - 0.563
-  - 0.168
-  - -0.222
-  - -0.62
+  - 0.6
+  - 0.205
+  - -0.185
+  - -0.583
   homelessSpawnPoints:
   - 1.01
   - -1.01

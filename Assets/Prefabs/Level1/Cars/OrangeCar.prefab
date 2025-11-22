@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 6207645655206643694}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.50043076, y: -0.43094265, z: 0}
-  m_LocalScale: {x: 0.6771306, y: 0.6771306, z: 0.6771306}
+  m_LocalPosition: {x: 1.647, y: 0.596, z: 0}
+  m_LocalScale: {x: 0.07642875, y: 0.07642875, z: 0.07642875}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 4
-  m_Sprite: {fileID: -2519994070040344546, guid: 7715fddc6bd3564418d509f2ccaa6621, type: 3}
+  m_Sprite: {fileID: 3258945051837797341, guid: 40cd4f250ade67346986e806e908499e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,17 +128,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0005819574, y: -0.0005726516}
+  m_Offset: {x: -0.1044866, y: -0.02308702}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.36, y: 0.48}
+    oldSize: {x: 7.3, y: 3.75}
     newSize: {x: 5.07, y: 7.9}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.3706007, y: 0.4694859}
+  m_Size: {x: 6.734764, y: 3.126224}
   m_EdgeRadius: 0
 --- !u!61 &8681963004532932058
 BoxCollider2D:
@@ -174,17 +174,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0005819574, y: -0.0005726516}
+  m_Offset: {x: -0.104486585, y: -0.023087025}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.36, y: 0.48}
+    oldSize: {x: 7.3, y: 3.75}
     newSize: {x: 5.07, y: 7.9}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.3706007, y: 0.4694859}
+  m_Size: {x: 6.734764, y: 3.1262236}
   m_EdgeRadius: 0
 --- !u!50 &8340526280756587224
 Rigidbody2D:
