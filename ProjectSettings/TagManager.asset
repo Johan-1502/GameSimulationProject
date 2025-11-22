@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Car
   - Homeless
+  - PlayerLv2
+  - Capuchos
   layers:
   - Default
   - TransparentFX
